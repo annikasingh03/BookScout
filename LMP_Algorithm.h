@@ -15,25 +15,14 @@
 #include <cctype>
 #include <unordered_set>
 
-// List of common words to exclude
+// common words (excluding these)
 const std::unordered_set<std::string> commonWords = {
-        "the", "and", "a", "to", "of", "in", "that", "it", "is", "was",
-        "he", "for", "on", "are", "as", "with", "his", "they", "i", "at",
-        "be", "this", "have", "from", "or", "one", "had", "by", "word",
-        "but", "not", "what", "all", "were", "we", "when", "your", "can",
-        "said", "there", "use", "an", "each", "which", "she", "do", "how",
-        "their", "if", "now", "own", "ever", "here", "very", "am", "our", "go",
-        "im", "so", "us", "ma", "you", "id", "sh", "ut", "her", "me", "no",
-        "em", "ill", "see", "any", "iv", "hers", "est", "other", "out", "like",
-        "know", "though", "vi", "get", "could", "should", "would", "about", "them",
-        "again", "went", "ive", "ye", "some", "herself", "hes", "its", "off", "did",
-        "then", "say", "who", "into", "way", "ten", "thing", "ear", "my", "too", "him",
-        "irs", "much", "must", "began"
-
-
+        "copyright", "anything", "getting", "rather", "electronic", "before", "replied",
+        "remark", "though", "should", "minute", "through", "little", "things", "nothing",
+        "thought", "because"
 };
 
-// Function to read a file and return its content as a string
+// read the novel txt file and return as a string
 std::string readFile(const std::string& filename) {
     std::ifstream file(filename);
     if (file.is_open()) {
@@ -44,7 +33,7 @@ std::string readFile(const std::string& filename) {
     }
 }
 
-// Function to compute the longest prefix suffix (LPS) array for KMP
+// compute the LPS for the KMP algorithm
 void computeLPSArray(const std::string &pat, std::vector<int> &lps) {
     int M = pat.size();
     lps[0] = 0;
@@ -66,7 +55,7 @@ void computeLPSArray(const std::string &pat, std::vector<int> &lps) {
     }
 }
 
-// Function to perform KMP search and count occurrences of a pattern
+// KMP algorithm to go through each word in the map and count occurances
 int KMPSearch(const std::string &pat, const std::string &txt) {
     int M = pat.size();
     int N = txt.size();
@@ -96,7 +85,7 @@ int KMPSearch(const std::string &pat, const std::string &txt) {
     return count;
 }
 
-// Function to preprocess and clean a word
+// cleans the words (get rid of punctuation, only alpha characters)
 std::string cleanWord(const std::string& word) {
     std::string cleanedWord;
     for (char ch : word) {
@@ -107,7 +96,7 @@ std::string cleanWord(const std::string& word) {
     return cleanedWord;
 }
 
-// Function to preprocess the text and remove common words and single-letter characters
+// removes the common words and single letters from the total list
 std::vector<std::string> preprocessText(const std::string& txt) {
     std::istringstream stream(txt);
     std::string word;
@@ -123,7 +112,7 @@ std::vector<std::string> preprocessText(const std::string& txt) {
     return cleanedWords;
 }
 
-// Function to generate a map of unique words from text
+// map of every unique word
 std::unordered_map<std::string, int> generateWordMap(const std::vector<std::string>& cleanedWords) {
     std::unordered_map<std::string, int> wordMap;
     for (const auto& word : cleanedWords) {
@@ -132,7 +121,7 @@ std::unordered_map<std::string, int> generateWordMap(const std::vector<std::stri
     return wordMap;
 }
 
-// Function to count occurrences of each word in the map using KMP and update the map
+// uses the KMP algorithm to count each word in the map
 void countWordsInText(std::unordered_map<std::string, int>& wordMap, const std::string& txt) {
     for (auto& pair : wordMap) {
         int count = KMPSearch(pair.first, txt);
@@ -140,9 +129,16 @@ void countWordsInText(std::unordered_map<std::string, int>& wordMap, const std::
     }
 }
 
-// Function to extract the top 30 most used words
+// for the word cloud: extracts top 30 words that are six characters or more
 std::vector<std::pair<std::string, int>> extractTopWords(const std::unordered_map<std::string, int>& wordMap, size_t topN = 30) {
-    std::vector<std::pair<std::string, int>> wordList(wordMap.begin(), wordMap.end());
+    std::vector<std::pair<std::string, int>> wordList;
+
+    for (const auto& pair : wordMap) {
+        if (pair.first.size() >= 6) {
+            wordList.push_back(pair);
+        }
+    }
+
     std::partial_sort(wordList.begin(), wordList.begin() + std::min(topN, wordList.size()), wordList.end(),
                       [](const auto& a, const auto& b) {
                           return b.second < a.second; // Sort in descending order by count
@@ -153,14 +149,14 @@ std::vector<std::pair<std::string, int>> extractTopWords(const std::unordered_ma
     return wordList;
 }
 
-// Function to output the word counts
+// prints the total map of unique words and occurences
 void printWordCounts(const std::unordered_map<std::string, int>& wordCount) {
     for (const auto &pair : wordCount) {
         std::cout << pair.first << ": " << pair.second << std::endl;
     }
 }
 
-// Function to output the top words
+// just prints the top 30 words
 void printTopWords(const std::vector<std::pair<std::string, int>>& topWords) {
     for (const auto &pair : topWords) {
         std::cout << pair.first << ": " << pair.second << std::endl;
