@@ -1,3 +1,5 @@
+// Angel Maldonado // BOYER MOORE ALGORITHM
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
