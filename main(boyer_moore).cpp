@@ -49,7 +49,6 @@ string onlyText(const string &text) {
     for (char c : text) {
         if (isalpha(c)) {
             result += tolower(c);
-//       }
         } else if(isspace(c)){
             result += ' ';
             }
@@ -70,7 +69,6 @@ vector<string> convertToWords(const string &text) {
 map<string, int> countNumWord(const string &text, const vector<string> &words) {
     map<string, int> wordCount;
     for (const string &word : words) {
-        //change here for different word size count!!
         if (word.size() > 6) {
             wordCount[word] = search(text, word);
         }
@@ -87,7 +85,7 @@ bool sortPairs(const pair<string, int> &a, const pair<string, int> &b) {
 
 int main() {
 
-    string filePath = "C:/Users/maldo/CLionProjects/Project3/Alice.txt";
+    string filePath = "../";
 
     ifstream file(filePath);
     if (!file.is_open()) {
@@ -116,18 +114,18 @@ int main() {
     sort(sortedWords.begin(), sortedWords.end(), sortPairs);
 
     set<string> commonWords = {"the", "and", "to", "of", "it", "she", "said", "you", "in", "was", "that", "as", "her", "with", "at", "on", "all", "for"};
+    vector<pair<string, int>> Tops;
 
-    int topNums = 100;
+    int topNums = 30;
     int count = 0;
     cout << "Top " << topNums << " popular words:" << endl;
     for (auto &word : sortedWords) {
-        if(commonWords.find(word.first) == commonWords.end()) {
             cout << word.first << ": " << word.second << endl;
             count++;
+            Tops.push_back({word.first, word.second});
             if(count == topNums){
                 break;
             }
-        }
     }
 //    cout << sortedWords[i].first << ": " << sortedWords[i].second << endl;
 
