@@ -34,7 +34,7 @@ Overarching Project Folder:
      wordCloud.py
      font.ttf
 
-Once the files are saved correctly, and the repository is cloned, you may run the program by compiling and calling main.cpp file.
+Once the files are saved correctly, and the repository is cloned, you may run the program by compiling and calling the main.cpp file.
 
 
 
