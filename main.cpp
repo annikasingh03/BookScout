@@ -15,7 +15,7 @@ using namespace std;
 #include <unordered_set>
 using namespace sf;
 #include <chrono>
-#include "LMP_Algorithm.h"
+#include "KMP_Algorithm.h"
 #define NO_OF_CHARS 256
 
 
@@ -115,7 +115,6 @@ void wordCloudBM( const string& filename){
                 break;
             }
     }
-//    cout << sortedWords[i].first << ": " << sortedWords[i].second << endl;
 
     cout << "Time taken: " << duration.count() << " seconds" << endl;
 
@@ -142,11 +141,11 @@ int main() {
     // loading font
     Font font;
     if (!font.loadFromFile("font.ttf")) {
-        std::cerr << "Error: Could not load the font file." << std::endl;
-        return -1; // Exit if the font cannot be loaded
-    } else {
-        std::cout << "font loaded" << std::endl;
-    }
+        std::cerr << "Font file not loaded" << std::endl;
+        return -1; 
+} 
+    else {
+        std::cout << "font loaded" << std::endl;}
 
    
     Text text;
@@ -237,6 +236,7 @@ int main() {
     bool book_chosen = false;
     bool boyerClicked = false, knuthClicked = false;
     bool wordCloudGenerated = false;
+    bool was_analyzed = false;
 
     Text how;
     how.setFont(font);
@@ -256,87 +256,87 @@ int main() {
     clickedText.setCharacterSize(25);
     clickedText.setFillColor(Color::Black);
 
-
     string title;
     
     
     
     //window loop
-    while (window.isOpen()) {
+   while (window.isOpen()) {
         Event event;
         while (window.pollEvent(event)) {
-            // exit window
-            if (event.type == Event::Closed || 
+            // Exit window
+            if (event.type == Event::Closed ||
                 (event.type == Event::KeyPressed && event.key.code == Keyboard::Escape)) {
                 window.close();
             }
 
-            // mouse click events
+            //  click events
             if (event.type == Event::MouseButtonPressed) {
                 if (event.mouseButton.button == Mouse::Left) {
                     Vector2f mousePos(event.mouseButton.x, event.mouseButton.y);
 
-                
-                    if ( frank.getGlobalBounds().contains(mousePos) ){
-                        b1Clicked = true, book_chosen = true, title = "Frankenstein.txt"; 
-                        wordCloudGenerated = false;  
-                    }
-                    else if( gatsby.getGlobalBounds().contains(mousePos) ){
-                        b2Clicked = true, book_chosen = true, title = "GreatGatsby.txt"; 
-                        wordCloudGenerated = false;  
-                    }
-                    else if( treasure.getGlobalBounds().contains(mousePos) ){
-                        b3Clicked = true, book_chosen = true, title = "TreasureIsland.txt"; 
-                        wordCloudGenerated = false;  
-                    }
-                    else if( alice.getGlobalBounds().contains(mousePos) ){
-                        b4Clicked = true, book_chosen = true, title = "AliceInWonderland.txt"; 
-                        wordCloudGenerated = false;  
-                    }
-                    else if( jane.getGlobalBounds().contains(mousePos) ){
-                        b5Clicked = true, book_chosen = true, title = "JaneEyre.txt"; 
-                        wordCloudGenerated = false;  
+                    // b1-5 button click check
+                    if( frank.getGlobalBounds().contains(mousePos )) {
+                        book_chosen = true;
+                        title = "Frankenstein.txt";
+                        wordCloudGenerated = false;
+                    } else if ( gatsby.getGlobalBounds().contains(mousePos) ) {
+                        book_chosen = true;
+                        title = "GreatGatsby.txt";
+                        wordCloudGenerated = false;
+                    } else if ( treasure.getGlobalBounds().contains(mousePos)) {
+                        book_chosen = true;
+                        title = "TreasureIsland.txt";
+                        wordCloudGenerated = false;
+                    } else if (alice.getGlobalBounds().contains(mousePos)) {
+                        book_chosen = true;
+                        title = "AliceInWonderland.txt";
+                        wordCloudGenerated = false;
+                    } else if (jane.getGlobalBounds().contains(mousePos)) {
+                        book_chosen = true;
+                        title = "JaneEyre.txt";
+                        wordCloudGenerated = false;
                     }
 
-                    // check if bm or km was clicked 
+                    // check which button was clicked and still allow for user to go back to other button
                     if (book_chosen) {
                         if (boyer.getGlobalBounds().contains(mousePos)) {
                             boyerClicked = true;
                             knuthClicked = false;
+                            wordCloudBM(title);
+                            was_analyzed = true;
                         } else if (knuth.getGlobalBounds().contains(mousePos)) {
                             knuthClicked = true;
                             boyerClicked = false;
+                            wordCloud(title);
+                            was_analyzed = true;
                         }
                     }
+
+                    // check button clicked
+                    if (was_analyzed) {
+                        book_chosen = true;
+                        wordCloudGenerated = false;
+                        was_analyzed = false;  }
                 }
             }
         }
 
-        //white
+        // screen 
         window.clear(Color::White);
-
-        // Draw the appropriate screen based on clicks./ma
         if (book_chosen) {
-            if (boyerClicked && !wordCloudGenerated) {  
-                clickedText.setString("Boyer-Moore button clicked!");
-                clickedText.setPosition(Vector2f(1000 / 2.0f - 190, 1000 / 2.0f - 320));
-                wordCloudBM(title);
-                wordCloudGenerated = true;
-                window.draw(clickedText);
-
-            } else if (knuthClicked && !wordCloudGenerated) { 
-                clickedText.setString("Knuth-Morris button clicked!");
-                clickedText.setPosition(Vector2f(1000 / 2.0f - 190 , 1000 / 2.0f - 320)); //subtract by more if you want to go up more
-                wordCloud(title);
-                wordCloudGenerated = true;  // Set the flag to true
-                window.draw(clickedText);
-            } else {
-                window.draw(how);
-                window.draw(ob);
-                window.draw(boyer);
-                window.draw(knuth);
+            if (wordCloudGenerated) {
+                clickedText.setString("Finished Analysis");
+                clickedText.setPosition(Vector2f(1000 / 2.0f - 250, 1000 / 2.0f - 320));
+                window.draw(clickedText);} 
+                else {
+                    window.draw(how);
+                    window.draw(ob);
+                    window.draw(boyer);
+                    window.draw(knuth);
             }
-        } else {
+        } 
+        else {
             window.draw(sprite);
             window.draw(frank);
             window.draw(gatsby);
