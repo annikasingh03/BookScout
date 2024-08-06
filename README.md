@@ -22,12 +22,9 @@ Ensure that you have the libraries listed above are downloaded and that you are 
 
 Overarching Project Folder:
      
-     images (folder titled "images" that should contain all of the .png files)
-     
-     main.cpp
-     
+     images (folder titled "images" that should contain all of the .png files)   
+     main.cpp  
      bm.h 
-     
      kmp.h 
      AliceInWonderland.txt
      JaneEyre.txt
