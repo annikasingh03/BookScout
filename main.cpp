@@ -279,20 +279,23 @@ int main() {
                     if( frank.getGlobalBounds().contains(mousePos )) {
                         book_chosen = true;
                         title = "Frankenstein.txt";
-                        wordCloudGenerated = false;
-                    } else if ( gatsby.getGlobalBounds().contains(mousePos) ) {
+                        wordCloudGenerated = false;}
+                    else if ( gatsby.getGlobalBounds().contains(mousePos) ) {
                         book_chosen = true;
                         title = "GreatGatsby.txt";
                         wordCloudGenerated = false;
-                    } else if ( treasure.getGlobalBounds().contains(mousePos)) {
+                    } 
+                    else if ( treasure.getGlobalBounds().contains(mousePos)) {
                         book_chosen = true;
                         title = "TreasureIsland.txt";
                         wordCloudGenerated = false;
-                    } else if (alice.getGlobalBounds().contains(mousePos)) {
+                    } 
+                    else if (alice.getGlobalBounds().contains(mousePos)) {
                         book_chosen = true;
                         title = "AliceInWonderland.txt";
                         wordCloudGenerated = false;
-                    } else if (jane.getGlobalBounds().contains(mousePos)) {
+                    } 
+                    else if (jane.getGlobalBounds().contains(mousePos)) {
                         book_chosen = true;
                         title = "JaneEyre.txt";
                         wordCloudGenerated = false;
