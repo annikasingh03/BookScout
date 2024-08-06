@@ -2,8 +2,8 @@
 // Created by Tatum Bowen on 7/31/24.
 //
 
-#ifndef LMP_ALGORITHM_H
-#define LMP_ALGORITHM_H
+#ifndef KMP_ALGORITHM_H
+#define KMP_ALGORITHM_H
 #include <iostream>
 #include <fstream>
 #include <unordered_map>
@@ -163,4 +163,4 @@ void printTopWords(const std::vector<std::pair<std::string, int>>& topWords) {
     }
 }
 
-#endif //LMP_ALGORITHM_H
+#endif //KMP_ALGORITHM_H
