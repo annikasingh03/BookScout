@@ -25,7 +25,7 @@ Overarching Project Folder:
      images (folder titled "images" that contains all of the .png files)   
      main.cpp  
      bm.h 
-     kmp.h 
+     KMP_Algorithm.h 
      AliceInWonderland.txt
      JaneEyre.txt
      TreasureIsland.txt
