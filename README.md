@@ -21,9 +21,13 @@ Instructions for running the program:
 Ensure that you have the libraries listed above are downloaded and that you are working with an IDE or interpreter that can read both python and C++. In order for the program to run correctly your files must be saved in the format shown below. This is neccesary for the program to run as relative file paths have been written into the code which are dependent on the structure in which you save each of these files. Additionally, if you are testing this code on a mac please account for the direction in which the slashes (/) are written for the filepaths to accomodate the Mac OS. 
 
 Overarching Project Folder:
+     
      images (folder titled "images" that should contain all of the .png files)
+     
      main.cpp
+     
      bm.h 
+     
      kmp.h 
      AliceInWonderland.txt
      JaneEyre.txt
